@@ -1,8 +1,6 @@
 composer.phar
 composer.lock
 vendor/
-tmp/*
-logs/*
 nbproject
 .idea
 libraries/ManiaLivePlugins
