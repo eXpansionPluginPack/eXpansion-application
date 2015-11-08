@@ -39,7 +39,8 @@
         "forum": "https://forum.maniaplanet.com/viewforum.php?f=518"
     },
     "require": {
-		"ml-expansion/expansion": "dev-dev-composer"
+		"ml-expansion/expansion": "dev-dev-composer as 0.9.8.7",
+        "ml-expansion/expansion-acme": "dev-master"
     },
     "require-dev": {
         "phine/phar": "~1.0"
