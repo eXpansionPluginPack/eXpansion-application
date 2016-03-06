@@ -24,10 +24,6 @@
       },
       {
         "type": "vcs",
-        "url": "https://github.com/eXpansionPluginPack/manialive"
-      },
-      {
-        "type": "vcs",
         "url": "https://github.com/eXpansionPluginPack/manialive-lib"
       },
       {
@@ -39,8 +35,7 @@
         "forum": "https://forum.maniaplanet.com/viewforum.php?f=518"
     },
     "require": {
-		"ml-expansion/expansion": "dev-dev-composer as 0.9.8.7",
-        "ml-expansion/expansion-acme": "dev-master"
+		"ml-expansion/expansion": "1.*.*.*"
     },
     "require-dev": {
         "phine/phar": "~1.0"
