@@ -17,12 +17,12 @@ if %dev% == y (goto :dev) else (goto :stable)
 
 REM In case of dev we launh with prefer-source options to have git access
 :dev
-%phpPath% composer.phar update --prefer-source --no-interaction --dry-run%*
+%phpPath% composer.phar update --prefer-source --no-interaction %*
 (goto :end)
 
 REM Other case just get the code no need for heavier git.
 :stable
-%phpPath% composer.phar update --prefer-dist --no-interaction --dry-run%*
+%phpPath% composer.phar update --prefer-dist --no-interaction %*
 (goto :end)
 
 :end
