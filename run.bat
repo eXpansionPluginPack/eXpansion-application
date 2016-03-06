@@ -5,6 +5,6 @@ FOR /F "tokens=2 delims==" %%a IN ('find "phpPath" ^<run.ini') DO SET phpPath=%%
 
 IF _%phpPath%==_ SET phpPath="php.exe"
 
-%phpPath% bootstrapper.php --test=test2 %*
+%phpPath% bootstrapper.php %*
 
-pause
+if %errorlevel% NEQ 0 pause
