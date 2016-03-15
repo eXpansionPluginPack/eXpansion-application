@@ -20,6 +20,7 @@ if($curlOk)
 	$curlSslOk = (function_exists('curl_exec') && in_array('https', $curlVersion['protocols'], true));
 }
 $mysqlOk = extension_loaded('mysql');
+$mysqliOk = extension_loaded('mysqli');
 $sqliteOk = extension_loaded('sqlite3');
 
 echo '
@@ -37,6 +38,7 @@ echo 'Standard PHP Library  -> required  -> '.($splOk ? '[ Yes ]' : '[ No  ]').P
 echo 'JSON                  -> required  -> '.($jsonOk ? '[ Yes ]' : '[ No  ]').PHP_EOL;
 echo 'cURL with SSL         -> required  -> '.($curlOk ? ($curlSslOk ? '[ Yes ] '.$curlVersion['version'].' (with '.$curlVersion['ssl_version'].')' : '[ No  ] '.$curlVersion['version'].' (without SSL)') : '[ No  ]').PHP_EOL;
 echo 'MySQL                 -> optional  -> '.($mysqlOk ? '[ Yes ]' : '[ No  ]').PHP_EOL;
+echo 'MySQLI                -> optional  -> '.($mysqliOk ? '[ Yes ]' : '[ No  ]').PHP_EOL;
 echo 'SQLite3               -> optional  -> '.($sqliteOk ? '[ Yes ]' : '[ No  ]').PHP_EOL;
 echo '-----------------------------------------------------'.PHP_EOL;
 
@@ -64,6 +66,10 @@ if(!ini_get('date.timezone'))
 if(!$mysqlOk)
 {
     echo 'MySQL is disabled, threading will not work. ManiaLive may encounter some perfomance trouble.'.PHP_EOL;
+}
+if(!$mysqliOk)
+{
+    echo 'MySQLI is disabled, ManiaLive may encounter some perfomance trouble.'.PHP_EOL;
 }
 // enable error reporting
 ini_set('display_errors', 1);

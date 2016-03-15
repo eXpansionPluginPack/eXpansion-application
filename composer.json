@@ -20,10 +20,6 @@
     [
       {
         "type": "vcs",
-        "url": "https://github.com/eXpansionPluginPack/eXpansion"
-      },
-      {
-        "type": "vcs",
         "url": "https://github.com/eXpansionPluginPack/manialive-lib"
       },
       {
