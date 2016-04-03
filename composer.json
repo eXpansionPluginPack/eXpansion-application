@@ -40,5 +40,8 @@
     "require-dev": {
         "phine/phar": "~1.0"
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "scripts": {
+        "post-update-cmd": "ManiaLivePlugins\\eXpansion\\Core\\Install::postUpdate"
+    }
 }
