@@ -25,13 +25,17 @@
       {
         "type": "vcs",
         "url": "https://github.com/eXpansionPluginPack/dedicated-server-api"
+      },
+      {
+        "type": "vcs",
+        "url": "https://github.com/eXpansionPluginPack/manialib"
       }
     ],
     "support": {
         "forum": "https://forum.maniaplanet.com/viewforum.php?f=518"
     },
     "require": {
-		"ml-expansion/expansion": "1.*.*.*"
+        "ml-expansion/expansion": "1.*.*.*"
     },
     "require-dev": {
         "phine/phar": "~1.0"
