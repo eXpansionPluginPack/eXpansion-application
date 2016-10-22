@@ -4,7 +4,8 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR .
 use ManiaLivePlugins\eXpansion\Helpers\Console;
 
 ini_set('display_errors', 1);
-error_reporting(E_WARNING ^ E_DEPRECATED);
+//error_reporting(E_WARNING ^ E_DEPRECATED);
+error_reporting(E_ALL);
 gc_enable();
 
 new \setup();
@@ -26,10 +27,8 @@ class setup
     private $db_pass = "";
     private $db_database = "";
 
-    function __construct()
+    public function __construct()
     {
-
-
         $expansion = <<<'EOT'
    
    
@@ -45,7 +44,9 @@ class setup
 EOT;
         Console::out($expansion);
 
-        Console::out("\nWelcome to " . Console::b_white . "e" . Console::b_cyan . "X" . Console::b_white . "pansion" . Console::white . " setup\n");
+        Console::out("\nWelcome to " . Console::b_white . "e" . Console::b_cyan . "X"
+            . Console::b_white . "pansion" . Console::white . " setup\n"
+        );
         Console::out("\n");
         $this->tryConnect();
         $this->setAdmins();
@@ -57,7 +58,7 @@ EOT;
 
             Console::out(Console::b_green . "Start eXpansion (y)? ");
             if ($this->getInput("y") == "y") {
-                exec(PHP_BINARY . "bootstrapper.php");
+                exec(PHP_BINARY . " bootstrapper.php");
             } else {
 
             }
@@ -69,14 +70,11 @@ EOT;
 
     }
 
-    function getInput($defaultValue = "")
+    public function getInput($defaultValue = "")
     {
-
-        echo Console::b_yellow;
-        echo "\e[s";
+        Console::out(Console::b_yellow);
         $line = trim(fgets(STDIN));
         if ($line == "") {
-            "\e[u";
             echo $defaultValue . "\n";
             return $defaultValue;
         }
@@ -84,7 +82,7 @@ EOT;
     }
 
 
-    function tryConnect()
+    public function tryConnect()
     {
         Console::out(Console::b_green . "Dedicated server connection setup:\n");
         Console::out(Console::white . "Please enter dedicated server ip (127.0.0.1): ");
@@ -98,7 +96,10 @@ EOT;
         $connection = null;
         try {
             Console::out("Trying to connect...", "Connect", Console::b_green);
-            $this->connection = \Maniaplanet\DedicatedServer\Connection::factory($this->ip, $this->port, 5, $this->user, $this->pass);
+            $this->connection = \Maniaplanet\DedicatedServer\Connection::factory(
+                $this->ip, $this->port, 5, $this->user, $this->pass
+            );
+            $this->connection->isRelayServer();
             Console::success();
             Console::outTm("Connected to server: " . $this->connection->getServerName() . "\n");
         } catch (\Exception $ex) {
@@ -108,25 +109,34 @@ EOT;
             if ($this->getInput("y") == "y") {
                 $this->tryConnect();
             } else {
+                Console::out(Console::white . "Setup aborted. No config written.");
                 exit(0);
             }
         }
         return;
     }
 
-    function setAdmins()
+    public function setAdmins()
     {
         Console::out(Console::b_green . "\nNext we'll setup master admins...\n");
         $players = $this->connection->getPlayerList();
-        if ($players) {
-            Console::out("Found " . count($players) . " players at server...\n");
+        Console::out("Found " . Console::b_green . count($players) . Console::white . " players at server...\n");
+        Console::out("Would you like to go though all players on server to add as master admin (y/" .
+            Console::b_white . "n" . Console::white . "): ");
+
+        if ($this->getInput("n") == "y") {
             $x = 1;
             foreach ($players as $player) {
                 Console::outTm("Player:" . $player->nickName . "\n");
-                Console::out(Console::white . "[" . $x . "/" . count($players) . "] Add " . $player->login . " as master admin (y/" . Console::b_white . "n" . Console::white . ")? " . Console::b_yellow);
+                Console::out(Console::white . "[" . $x . "/" . count($players) . "] Add "
+                    . $player->login . " as master admin (y/" . Console::b_white . "n"
+                    . Console::white . "/cancel)? " . Console::b_yellow);
                 $answer = $this->getInput("n");
                 if ($answer == "y") {
                     $this->admins[] = $player->login;
+                }
+                if ($answer == "cancel") {
+                    break;
                 }
                 $x++;
             }
@@ -136,9 +146,79 @@ EOT;
         }
     }
 
-    function setMySql()
+    public function setMySql()
     {
         Console::out(Console::b_green . "Next we'll setup mysql-connection...\n");
+        Console::out(Console::white . "Create new user and database (y/" . Console::b_white . "n"
+            . Console::white . "/cancel)? ");
+        $answer = $this->getInput("n");
+        if ($answer == "y") {
+            $this->createMySqlUser();
+        } else {
+            $this->setMySqlUser();
+        }
+    }
+
+
+    public function createMySqlUser()
+    {
+        Console::out(Console::white . "Please enter mysql server ip (127.0.0.1): ");
+        $this->db_ip = $this->getInput("127.0.0.1");
+        Console::out(Console::white . "Please enter mysql server port (3306): ");
+        $this->db_port = (int)$this->getInput(3306);
+        Console::out(Console::white . "Please enter mysql superuser (root): ");
+        $user = $this->getInput("root");
+        Console::out(Console::white . "Please enter mysql superuser password: ");
+        $pass = $this->getInput("");
+        try {
+            echo Console::white;
+            Console::out("Trying to connect...", "MySQLI", Console::b_green);
+            $link = mysqli_connect($this->db_ip, $user, $pass, null, $this->db_port);
+            Console::ok();
+        } catch (\Exception $ex) {
+            Console::fail();
+            Console::out_error($ex->getMessage());
+            Console::out("Try again (y)? ");
+            if ($this->getInput("y") == "y") {
+                $this->createMySqlUser();
+            } else {
+                Console::out(Console::white . "Setup aborted. No config written.");
+                exit(0);
+            }
+        }
+
+        Console::out(Console::white . "Please enter new user name: ");
+        $this->db_user = $this->getInput("");
+        Console::out(Console::white . "Please enter new user password: ");
+        $this->db_password = $this->getInput("");
+        Console::out(Console::white . "Please enter new database name (" . $this->db_user . "): ");
+        $this->db_database = $this->getInput($this->db_user);
+        try {
+            echo Console::white;
+            Console::out("Creating user and database", "MySQLI", Console::b_green);
+            mysqli_query($link, "CREATE DATABASE IF NOT EXISTS " . mysqli_real_escape_string($link, $this->db_database));
+            mysqli_query($link, "GRANT ALL PRIVILEGES ON " . $this->db_database . ".* To "
+                . mysqli_real_escape_string($link, $this->db_user) . "@'localhost' IDENTIFIED BY "
+                . mysqli_real_escape_string($link, $this->db_pass) . ";");
+            Console::ok();
+        } catch (\Exception $ex) {
+            Console::fail();
+            Console::out_error($ex->getMessage());
+            Console::out("Try again (y)? ");
+            if ($this->getInput("y") == "y") {
+                $this->createMySqlUser();
+            } else {
+                Console::out(Console::white . "Setup aborted. No config written.");
+                exit(0);
+            }
+        }
+
+
+    }
+
+
+    public function setMySqlUser()
+    {
         Console::out(Console::white . "Please enter mysql server ip (127.0.0.1): ");
         $this->db_ip = $this->getInput("127.0.0.1");
         Console::out(Console::white . "Please enter mysql server port (3306): ");
@@ -152,24 +232,26 @@ EOT;
 
         try {
             echo Console::white;
-
             Console::out("Trying to connect...", "MySQLI", Console::b_green);
-            @ManiaLive\Database\Connection::getConnection($this->db_ip, $this->db_pass, $this->db_user, $this->db_database, "MySQLI", $this->db_port);
+            @ManiaLive\Database\Connection::getConnection(
+                $this->db_ip, $this->db_user, $this->db_pass, $this->db_database, "MySQLI", $this->db_port
+            );
             Console::ok();
         } catch (\Exception $ex) {
             Console::fail();
             Console::out_error($ex->getMessage());
             Console::out("Try again (y)? ");
             if ($this->getInput("y") == "y") {
-                $this->setMySql();
+                $this->setMySqlUser();
             } else {
+                Console::out(Console::white . "Setup aborted. No config written.");
                 exit(0);
             }
         }
     }
 
 
-    function writeConfig()
+    public function writeConfig()
     {
         $config = ";------------------
 ; Dedicated Server
