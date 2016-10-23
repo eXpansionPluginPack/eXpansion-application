@@ -196,12 +196,16 @@ EOT;
         try {
             echo Console::white;
             Console::out("Creating user and database", "MySQLI", Console::b_green);
-            mysqli_query($link, "SHOW CREATE USER '" . mysqli_real_escape_string($link, $this->db_user) . "'@'localhost' IDENTIFIED BY '" . mysqli_real_escape_string($link, $this->db_pass) . "';");
-            mysqli_query($link, "GRANT USAGE ON *.* TO '".mysqli_real_escape_string($link, $this->db_user)."'@'%' IDENTIFIED BY '".mysqli_real_escape_string($link, $this->db_pass) ."' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;");
-            mysqli_query($link, "CREATE DATABASE IF NOT EXISTS " . mysqli_real_escape_string($link, $this->db_database));
-            mysqli_query($link, "GRANT ALL PRIVILEGES ON " . $this->db_database . ".* TO "
-                . mysqli_real_escape_string($link, $this->db_user) . "@'localhost' IDENTIFIED BY "
-                . mysqli_real_escape_string($link, $this->db_pass) . ";");
+
+            $user = mysqli_real_escape_string($link, $this->db_user);
+            $password = mysqli_real_escape_string($link, $this->db_pass);
+            $database = mysqli_real_escape_string($link, $this->db_database);
+
+            mysqli_query($link, "CREATE DATABASE IF NOT EXISTS $database");
+            mysqli_query($link, "GRANT ALL PRIVILEGES ON $database.* To '$user'@'%' IDENTIFIED BY '$password';");
+            mysqli_query($link, "GRANT ALL PRIVILEGES ON $database.* To '$user'@'localhost' IDENTIFIED BY '$password';");
+            mysqli_query($link, "GRANT ALL PRIVILEGES ON $database.* To '$user'@'127.0.0.1' IDENTIFIED BY '$password';");
+
             Console::ok();
         } catch (\Exception $ex) {
             Console::fail();
@@ -214,8 +218,6 @@ EOT;
                 exit(0);
             }
         }
-
-
     }
 
 
