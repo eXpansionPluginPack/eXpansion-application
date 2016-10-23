@@ -168,7 +168,7 @@ EOT;
         $this->db_port = (int)$this->getInput(3306);
         Console::out(Console::white . "Please enter mysql superuser (root): ");
         $user = $this->getInput("root");
-        Console::out(Console::white . "Please enter mysql superuser password: ");
+        Console::out(Console::white . "Please enter mysql superuser password (empty): ");
         $pass = $this->getInput("");
         try {
             echo Console::white;
@@ -190,14 +190,16 @@ EOT;
         Console::out(Console::white . "Please enter new user name: ");
         $this->db_user = $this->getInput("");
         Console::out(Console::white . "Please enter new user password: ");
-        $this->db_password = $this->getInput("");
+        $this->db_pass = $this->getInput("");
         Console::out(Console::white . "Please enter new database name (" . $this->db_user . "): ");
         $this->db_database = $this->getInput($this->db_user);
         try {
             echo Console::white;
             Console::out("Creating user and database", "MySQLI", Console::b_green);
+            mysqli_query($link, "SHOW CREATE USER '" . mysqli_real_escape_string($link, $this->db_user) . "'@'localhost' IDENTIFIED BY '" . mysqli_real_escape_string($link, $this->db_pass) . "';");
+            mysqli_query($link, "GRANT USAGE ON *.* TO '".mysqli_real_escape_string($link, $this->db_user)."'@'%' IDENTIFIED BY '".mysqli_real_escape_string($link, $this->db_pass) ."' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;");
             mysqli_query($link, "CREATE DATABASE IF NOT EXISTS " . mysqli_real_escape_string($link, $this->db_database));
-            mysqli_query($link, "GRANT ALL PRIVILEGES ON " . $this->db_database . ".* To "
+            mysqli_query($link, "GRANT ALL PRIVILEGES ON " . $this->db_database . ".* TO "
                 . mysqli_real_escape_string($link, $this->db_user) . "@'localhost' IDENTIFIED BY "
                 . mysqli_real_escape_string($link, $this->db_pass) . ";");
             Console::ok();
