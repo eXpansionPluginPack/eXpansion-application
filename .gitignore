@@ -7,5 +7,6 @@ libraries/ManiaLivePlugins
 
 config/*
 !config/config-example.ini
+!config/widgets.ini
 manialive.phar
 composer.phar
