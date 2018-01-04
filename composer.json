@@ -51,6 +51,7 @@
     },
     "sort-packages": true
   },
+  "minimum-stability": "dev",
   "extra": {
     "symfony-app-dir": "app",
     "symfony-bin-dir": "bin",
