@@ -1,0 +1,29 @@
+# This file is a "template" of what your parameters.yml file should look like
+# This file is origianlly written to use with docker; so exemples are for that usage.
+
+parameters:
+    database_driver: mysql
+    database_host: mysql
+    database_port: ~
+    database_name: expansion
+    database_user: root
+    database_password: ~
+
+    dedicated_host: localhost
+    dedicated_port: 5000
+    dedicated_timeout: 5
+    dedicated_user: SuperAdmin
+    dedicated_password: SuperAdmin
+    dedicated_connection_type: local
+
+    color_enabled: true
+
+# Need to create an adapter that will never be used to satify dependencies.
+oneup_flysystem:
+    adapters:
+        dedicated_user_data:
+            nulladapter: ~
+
+    filesystems:
+        dedicated_user_data:
+            adapter: dedicated_user_data

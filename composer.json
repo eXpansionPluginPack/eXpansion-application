@@ -1,47 +1,65 @@
 {
-    "name": "ml-expansion/expansion-application",
-    "type": "project",
-    "description": "Install package for eXpansion Plugin pack for manialive server controler",
-    "keywords": ["maniaplanet", "shootmania", "trackmania", "application", "manialive", "next-gen controller"],
-    "homepage": "http://ml-expansion.com/",
-    "license": "LGPL-3.0",
-    "authors": [
-      {
-        "name": "Reaby",
-        "email": "petri.jarvisalo@gmail.com"
-      },
-      {
-        "name": "Oliverde8",
-        "email": "oliverde8@tm-teams.com",
-        "homepage": "http://www.oliver-decramer.com"
-      }
-    ],
-    "repositories":
-    [
-      {
-        "type": "vcs",
-        "url": "https://github.com/eXpansionPluginPack/manialive-lib"
-      },
-      {
-        "type": "vcs",
-        "url": "https://github.com/eXpansionPluginPack/dedicated-server-api"
-      },
-      {
-        "type": "vcs",
-        "url": "https://github.com/eXpansionPluginPack/manialib"
-      }
-    ],
-    "support": {
-        "forum": "https://forum.maniaplanet.com/viewforum.php?f=518"
+  "name": "ml-expansion/expansion-application",
+  "type": "project",
+  "description": "Install package for eXpansion the next gen Maniaplanet server controller",
+  "keywords": [
+    "maniaplanet",
+    "shootmania",
+    "trackmania",
+    "application",
+    "next-gen controller",
+    "symfony"
+  ],
+  "homepage": "http://mp-expansion.com/",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Reaby",
+      "email": "petri.jarvisalo@gmail.com"
     },
-    "require": {
-        "ml-expansion/expansion": "1.*.*.*"
-    },
-    "require-dev": {
-        "phine/phar": "~1.0"
-    },
-    "minimum-stability": "dev",
-    "scripts": {
-        "post-update-cmd": "ManiaLivePlugins\\eXpansion\\Core\\Install::postUpdate"
+    {
+      "name": "Oliverde8",
+      "email": "oliverde8@tm-teams.com",
+      "homepage": "http://www.oliver-decramer.com"
     }
+  ],
+  "repositories":
+  [
+    {
+      "type": "vcs",
+      "url": "https://github.com/eXpansionPluginPack/eXpansion2"
+    }
+  ],
+  "require": {
+    "expansion-mp/expansion": "2.0.*.*"
+  },
+  "scripts": {
+    "symfony-scripts": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap"
+    ],
+    "post-install-cmd": [
+      "@symfony-scripts"
+    ],
+    "post-update-cmd": [
+      "@symfony-scripts"
+    ]
+  },
+  "config": {
+    "platform": {
+      "php": "7.0"
+    },
+    "sort-packages": true
+  },
+  "extra": {
+    "symfony-app-dir": "app",
+    "symfony-bin-dir": "bin",
+    "symfony-var-dir": "var",
+    "symfony-web-dir": "web",
+    "symfony-tests-dir": "tests",
+    "symfony-assets-install": "relative",
+    "incenteev-parameters": {
+      "file": "app/config/parameters.yml"
+    }
+  }
 }

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function killmanialive {
+function killeXpansion {
 
         # read process id from file
         read -r PID < .pid
@@ -89,8 +89,8 @@ done
 # start either daemon or run within console
 if [ $DAEMON == "false" ]
 then
-        echo "Launching ManiaLive with the following arguments: $ARGS"
-        $PHP ./bootstrapper.php $ARGS
+        echo "Launching eXpansion with the following arguments: $ARGS"
+        $PHP bin/console.php eXpansion:run
 else
         if [ $STOP == "false" ]
         then
@@ -100,23 +100,23 @@ else
 					PS_PID=`ps -p $PID --noheader | awk '{print $1}'`
 					if [ ${PS_PID:-0} -eq ${PID:-0} ]
 					then
-							echo "ManiaLive is currently running, use --stop to kill it."
+							echo "eXpansion is currently running, use --stop to kill it."
 							exit
 					fi
 				fi
 
-                echo "Launching ManiaLive Daemon with the following arguments: $ARGS"
+                echo "Launching eXpansion Daemon with the following arguments: $ARGS"
                 $PHP $PWD/bootstrapper.php $ARGS </dev/null > $PWD/logs/runtime.log 2>&1 &
 
                 echo "Writing process id : $! to file."
                 echo $! > .pid
         else
-                echo "Stopping Manialive Daemon ..."
+                echo "Stopping eXpansion Daemon ..."
                 if [ -f $PWD/.pid ]
                 then
-                        killmanialive
+                        killeXpansion
                 else
-                        echo "You did not start ManiaLive!"
+                        echo "You did not start eXpansion!"
                 fi
         fi
 fi

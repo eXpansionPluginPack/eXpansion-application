@@ -1,12 +1,12 @@
-composer.phar
-composer.lock
-vendor/
-nbproject
-.idea
-libraries/ManiaLivePlugins
+/app/config/parameters.yml
 
-config/*
-!config/config-example.ini
-!config/widgets.ini
-manialive.phar
-composer.phar
+/bin/*
+!/bin/.gitkeep
+/var/cache/*
+!/var/cache/.gitkeep
+/var/logs/*
+!/var/logs/.gitkeep
+/var/tmp/*
+!/var/tmp/.gitkeep
+
+/.idea/
