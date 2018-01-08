@@ -23,13 +23,6 @@
       "homepage": "http://www.oliver-decramer.com"
     }
   ],
-  "repositories":
-  [
-    {
-      "type": "vcs",
-      "url": "https://github.com/eXpansionPluginPack/eXpansion2"
-    }
-  ],
   "require": {
     "expansion-mp/expansion": "2.0.*.*"
   },
@@ -49,7 +42,8 @@
     "platform": {
       "php": "7.0"
     },
-    "sort-packages": true
+    "sort-packages": true,
+    "bin-dir": "bin"
   },
   "minimum-stability": "dev",
   "extra": {
