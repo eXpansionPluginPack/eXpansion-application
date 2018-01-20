@@ -1,63 +1,66 @@
 {
-  "name": "ml-expansion/expansion-application",
-  "type": "project",
-  "description": "Install package for eXpansion the next gen Maniaplanet server controller",
-  "keywords": [
-    "maniaplanet",
-    "shootmania",
-    "trackmania",
-    "application",
-    "next-gen controller",
-    "symfony"
-  ],
-  "homepage": "http://mp-expansion.com/",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Reaby",
-      "email": "petri.jarvisalo@gmail.com"
-    },
-    {
-      "name": "Oliverde8",
-      "email": "oliverde8@tm-teams.com",
-      "homepage": "http://www.oliver-decramer.com"
-    }
-  ],
-  "autoload": {
-    "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
-  },
-  "require": {
-    "expansion-mp/expansion": "2.0.*.*"
-  },
-  "scripts": {
-    "symfony-scripts": [
-      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
-      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap"
+    "name": "ml-expansion\/expansion-application",
+    "type": "project",
+    "description": "Install package for eXpansion the next gen Maniaplanet server controller",
+    "keywords": [
+        "maniaplanet",
+        "shootmania",
+        "trackmania",
+        "application",
+        "next-gen controller",
+        "symfony"
     ],
-    "post-install-cmd": [
-      "@symfony-scripts"
+    "homepage": "http:\/\/mp-expansion.com\/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Reaby",
+            "email": "petri.jarvisalo@gmail.com"
+        },
+        {
+            "name": "Oliverde8",
+            "email": "oliverde8@tm-teams.com",
+            "homepage": "http:\/\/www.oliver-decramer.com"
+        }
     ],
-    "post-update-cmd": [
-      "@symfony-scripts"
-    ]
-  },
-  "config": {
-    "platform": {
-      "php": "7.0"
+    "autoload": {
+        "classmap": [
+            "app\/AppKernel.php",
+            "app\/AppCache.php"
+        ]
     },
-    "sort-packages": true,
-    "bin-dir": "bin"
-  },
-  "minimum-stability": "dev",
-  "extra": {
-    "symfony-app-dir": "app",
-    "symfony-bin-dir": "bin",
-    "symfony-var-dir": "var",
-    "symfony-web-dir": "web",
-    "symfony-tests-dir": "tests",
-    "symfony-assets-install": "relative",
-    "incenteev-parameters": {
-      "file": "app/config/parameters.yml"
+    "require": {
+        "expansion-mp\/expansion": "2.0.*.*"
+    },
+    "scripts": {
+        "symfony-scripts": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap"
+        ],
+        "post-install-cmd": [
+            "@symfony-scripts"
+        ],
+        "post-update-cmd": [
+            "@symfony-scripts"
+        ]
+    },
+    "config": {
+        "platform": {
+            "php": "7.0"
+        },
+        "sort-packages": true,
+        "bin-dir": "bin"
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "symfony-app-dir": "app",
+        "symfony-bin-dir": "bin",
+        "symfony-var-dir": "var",
+        "symfony-web-dir": "web",
+        "symfony-tests-dir": "tests",
+        "symfony-assets-install": "relative",
+        "incenteev-parameters": {
+            "file": "app\/config\/parameters.yml"
+        }
     }
-  }
 }
