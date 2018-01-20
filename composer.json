@@ -23,6 +23,9 @@
       "homepage": "http://www.oliver-decramer.com"
     }
   ],
+  "autoload": {
+    "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
+  },
   "require": {
     "expansion-mp/expansion": "2.0.*.*"
   },
