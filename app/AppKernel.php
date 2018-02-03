@@ -34,6 +34,7 @@ class AppKernel extends Kernel
         /* Register eXpansion Plugins */
         $bundles[] = new \eXpansion\Bundle\LocalRecords\LocalRecordsBundle();
         $bundles[] = new \eXpansion\Bundle\Maps\MapsBundle();
+        $bundles[] = new \eXpansion\Bundle\Players\PlayersBundle();
         $bundles[] = new \eXpansion\Bundle\JoinLeaveMessages\JoinLeaveMessagesBundle();
         $bundles[] = new \eXpansion\Bundle\Emotes\EmotesBundle();
         $bundles[] = new \eXpansion\Bundle\Menu\MenuBundle();
@@ -73,6 +74,7 @@ class AppKernel extends Kernel
             new \eXpansion\Framework\Core\eXpansionCore(),
             new \eXpansion\Framework\GameManiaplanet\eXpansionGameManiaplanetBundle(),
             new \eXpansion\Framework\GameTrackmania\eXpansionGameTrackmaniaBundle(),
+            new \eXpansion\Framework\GameShootmania\eXpansionGameShootmaniaBundle(),
             new \eXpansion\Framework\AdminGroups\eXpansionAdminGroupsBundle(),
             new \eXpansion\Framework\Gui\eXpansionGuiBundle(),
             new \eXpansion\Framework\PlayersBundle\eXpansionFrameworkPlayersBundle(),
