@@ -8,6 +8,7 @@ imports:
 #        query_cache_driver: apc
 
 monolog:
+    channels: [admin]
     handlers:
         main:
             type: fingers_crossed
@@ -16,6 +17,11 @@ monolog:
         nested:
             type: stream
             path: '%kernel.logs_dir%/%kernel.environment%.log'
-            level: debug
+            level: error
         console:
             type: console
+        admin:
+            type:     stream
+            level:    debug
+            path:     '%kernel.logs_dir%/admin.log'
+            channels: [admin]
