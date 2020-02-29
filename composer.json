@@ -29,6 +29,12 @@
             "app\/AppCache.php"
         ]
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/eXpansionPluginPack/PropelBundle.git"
+        }
+    ],
     "require": {
         "expansion-mp\/expansion": "2.0.*.*"
     },
